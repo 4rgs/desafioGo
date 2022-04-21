@@ -16,6 +16,7 @@ import (
 var collection = database.GetCollection("products")
 var ctx = context.Background()
 
+//MODULARIZAR funcionalidades a service
 func Find(c *fiber.Ctx) error {
 	var products m.Products
 	filter := bson.M{}
@@ -75,4 +76,25 @@ func Find(c *fiber.Ctx) error {
 		"page":      page,
 		"last_page": math.Ceil(float64(total / perPage)),
 	})
+}
+
+func applyDiscount(product m.Product) m.Product {
+	if productIsPalidrom(product) {
+		product.Price = product.Price * 0.5
+	}
+	return product
+}
+
+func productIsPalidrom(product m.Product) bool {
+	return (isPalindrom(string(product.ID)) || isPalindrom(product.Brand) || isPalindrom(product.Description))
+}
+
+func isPalindrom(query string) bool {
+	wordLen1 := len(query)
+	for i := 0; i < wordLen1; i++ {
+		if query[i] != query[wordLen1-1-i] {
+			return false
+		}
+	}
+	return true
 }
