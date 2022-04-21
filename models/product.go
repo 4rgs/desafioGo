@@ -14,3 +14,4 @@ type Product struct {
 
 // lista de productos
 type Products []*Product
+type DiscountProducts []Product

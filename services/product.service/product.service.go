@@ -9,6 +9,7 @@ import (
 
 func Find(c *fiber.Ctx) error {
 	products := prodRepository.Find(c)
-	fmt.Println(products)
+
+	fmt.Println(products, &products)
 	return products
 }

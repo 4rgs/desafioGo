@@ -19,6 +19,7 @@ var ctx = context.Background()
 //MODULARIZAR funcionalidades a service
 func Find(c *fiber.Ctx) error {
 	var products m.Products
+	var prodWithDiscount m.DiscountProducts
 	filter := bson.M{}
 	findOptions := options.Find()
 
@@ -55,7 +56,9 @@ func Find(c *fiber.Ctx) error {
 
 	page, _ := strconv.Atoi(c.Query("page", "1"))
 	var perPage int64 = 10
-
+	if page < 1 {
+		page = 1
+	}
 	total, _ := collection.CountDocuments(ctx, filter)
 
 	findOptions.SetSkip((int64(page) - 1) * perPage)
@@ -66,12 +69,15 @@ func Find(c *fiber.Ctx) error {
 
 	for cursor.Next(ctx) {
 		var product *m.Product
+		var dsc m.Product
 		cursor.Decode(&product)
+		dsc = applyDiscount(*product)
+		prodWithDiscount = append(prodWithDiscount, dsc)
 		products = append(products, product)
 	}
-
 	return c.JSON(fiber.Map{
 		"data":      products,
+		"dsc":       prodWithDiscount,
 		"total":     total,
 		"page":      page,
 		"last_page": math.Ceil(float64(total / perPage)),
