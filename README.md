@@ -5,6 +5,8 @@ Backend API on GO-lang
 
 Servicio API REST para el desafio de productos palindromes desarrollado en GO
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=4rgs_desafioGo&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=4rgs_desafioGo)
+
 ## API Reference
 
 #### Find Product
