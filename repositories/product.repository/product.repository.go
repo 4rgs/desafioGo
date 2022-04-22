@@ -20,6 +20,7 @@ var ctx = context.Background()
 func Find(c *fiber.Ctx) error {
 	var products m.Products
 	var prodWithDiscount m.DiscountProducts
+	regex := "$regex"
 	filter := bson.M{}
 	findOptions := options.Find()
 
@@ -28,7 +29,7 @@ func Find(c *fiber.Ctx) error {
 			"$or": []bson.M{
 				{
 					"brand": bson.M{
-						"$regex": primitive.Regex{
+						regex: primitive.Regex{
 							Pattern: query,
 							Options: "i",
 						},
@@ -36,7 +37,7 @@ func Find(c *fiber.Ctx) error {
 				},
 				{
 					"description": bson.M{
-						"$regex": primitive.Regex{
+						regex: primitive.Regex{
 							Pattern: query,
 							Options: "i",
 						},
@@ -44,7 +45,7 @@ func Find(c *fiber.Ctx) error {
 				},
 				{
 					"id": bson.M{
-						"$regex": primitive.Regex{
+						regex: primitive.Regex{
 							Pattern: query,
 							Options: "i",
 						},
