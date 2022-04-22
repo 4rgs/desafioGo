@@ -42,6 +42,14 @@ func Find(c *fiber.Ctx) error {
 						},
 					},
 				},
+				{
+					"id": bson.M{
+						"$regex": primitive.Regex{
+							Pattern: query,
+							Options: "i",
+						},
+					},
+				},
 			},
 		}
 	}
@@ -54,14 +62,11 @@ func Find(c *fiber.Ctx) error {
 		}
 	}
 
-	page, _ := strconv.Atoi(c.Query("page", "1"))
+	page, _ := strconv.Atoi(c.Query("page", "0"))
 	var perPage int64 = 10
-	if page < 1 {
-		page = 1
-	}
 	total, _ := collection.CountDocuments(ctx, filter)
 
-	findOptions.SetSkip((int64(page) - 1) * perPage)
+	findOptions.SetSkip((int64(page)) * perPage)
 	findOptions.SetLimit(perPage)
 
 	cursor, _ := collection.Find(ctx, filter, findOptions)
