@@ -46,13 +46,10 @@ Then we can deploy our service that will run on previous DATABASE
 git clone https://github.com/4rgs/desafioGo.git
 ```
 ```bash
-cd desafio-backend
+cd desafioGo
 ```
 ```bash
-npm install
-```
-```bash
-npm run start
+go run main.go
 ```
 
 
