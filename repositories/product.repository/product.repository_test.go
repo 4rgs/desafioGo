@@ -27,7 +27,7 @@ func TestFind(t *testing.T) {
 		},
 		// Second test case
 		{
-			description:  "get HTTP status 404, when route is not exists",
+			description:  "get HTTP status 404, when route doesn't exists",
 			route:        "/not-found",
 			expectedCode: 404,
 		},
